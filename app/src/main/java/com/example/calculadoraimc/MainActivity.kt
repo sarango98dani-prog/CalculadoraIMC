@@ -32,6 +32,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
+object Routes {
+    const val INICIO = "inicio"
+    const val RESULTADO = "resultado"
+}
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,18 +53,22 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = "inicio"
+        startDestination = Routes.INICIO
     ) {
 
-        composable("inicio") {
+        composable(Routes.INICIO) {
             PantallaIngreso(navController)
         }
 
         composable(
-            route = "resultado/{nombre}/{imc}",
+            route = "${Routes.RESULTADO}/{nombre}/{imc}",
             arguments = listOf(
-                navArgument("nombre") { type = NavType.StringType },
-                navArgument("imc") { type = NavType.FloatType }
+                navArgument("nombre") {
+                    type = NavType.StringType
+                },
+                navArgument("imc") {
+                    type = NavType.FloatType
+                }
             )
         ) { backStackEntry ->
 
@@ -77,7 +86,6 @@ fun AppNavigation() {
         }
     }
 }
-
 @Composable
 fun PantallaIngreso(navController: NavHostController) {
 
@@ -175,7 +183,7 @@ fun PantallaIngreso(navController: NavHostController) {
                         val imc = pesoNum / (alturaNum * alturaNum)
 
                         navController.navigate(
-                            "resultado/${Uri.encode(nombre)}/$imc"
+                            "${Routes.RESULTADO}/${Uri.encode(nombre)}/$imc"
                         )
                     }
                 }
