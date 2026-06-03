@@ -31,6 +31,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.compose.foundation.layout.fillMaxWidth
 
 object Routes {
     const val INICIO = "inicio"
@@ -98,8 +99,9 @@ fun PantallaIngreso(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
         Text(
@@ -107,15 +109,16 @@ fun PantallaIngreso(navController: NavHostController) {
             style = MaterialTheme.typography.headlineMedium
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         TextField(
             value = nombre,
             onValueChange = { nombre = it },
-            label = { Text("Nombre") }
+            label = { Text("Nombre") },
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
             value = peso,
@@ -123,10 +126,11 @@ fun PantallaIngreso(navController: NavHostController) {
             label = { Text("Peso (kg)") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
             value = altura,
@@ -134,10 +138,11 @@ fun PantallaIngreso(navController: NavHostController) {
             label = { Text("Altura (m)") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         if (mensajeError.isNotEmpty()) {
             Text(
@@ -146,7 +151,7 @@ fun PantallaIngreso(navController: NavHostController) {
             )
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
@@ -187,7 +192,8 @@ fun PantallaIngreso(navController: NavHostController) {
                         )
                     }
                 }
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Calcular")
         }
@@ -229,23 +235,30 @@ fun PantallaResultado(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
         Text(
-            text = "Hola $nombre, tu resultado es:"
+            text = "Hola $nombre",
+            style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = "Tu resultado es:"
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
 
         Text(
             text = String.format("%.1f", imc),
             style = MaterialTheme.typography.headlineLarge
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = categoria,
@@ -253,12 +266,13 @@ fun PantallaResultado(
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         Button(
             onClick = {
                 navController.popBackStack()
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Volver")
         }
