@@ -85,7 +85,7 @@ fun PantallaIngreso(navController: NavHostController) {
     var peso by remember { mutableStateOf("") }
     var altura by remember { mutableStateOf("") }
 
-    var error by remember { mutableStateOf(false) }
+    var mensajeError by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -131,9 +131,9 @@ fun PantallaIngreso(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        if (error) {
+        if (mensajeError.isNotEmpty()) {
             Text(
-                text = "Por favor, ingresa valores válidos",
+                text = mensajeError,
                 color = Color.Red
             )
         }
@@ -146,21 +146,38 @@ fun PantallaIngreso(navController: NavHostController) {
                 val pesoNum = peso.toFloatOrNull()
                 val alturaNum = altura.toFloatOrNull()
 
-                if (pesoNum == null ||
-                    alturaNum == null ||
-                    pesoNum <= 0 ||
-                    alturaNum <= 0
-                ) {
-                    error = true
-                } else {
+                when {
 
-                    error = false
+                    nombre.isBlank() -> {
+                        mensajeError = "Ingrese su nombre"
+                    }
 
-                    val imc = pesoNum / (alturaNum * alturaNum)
+                    pesoNum == null -> {
+                        mensajeError = "Ingrese un peso válido"
+                    }
 
-                    navController.navigate(
-                        "resultado/${Uri.encode(nombre)}/$imc"
-                    )
+                    alturaNum == null -> {
+                        mensajeError = "Ingrese una altura válida"
+                    }
+
+                    pesoNum < 20 || pesoNum > 300 -> {
+                        mensajeError = "El peso debe estar entre 20 y 300 kg"
+                    }
+
+                    alturaNum < 0.5f || alturaNum > 2.5f -> {
+                        mensajeError = "La altura debe estar entre 0.5 y 2.5 m"
+                    }
+
+                    else -> {
+
+                        mensajeError = ""
+
+                        val imc = pesoNum / (alturaNum * alturaNum)
+
+                        navController.navigate(
+                            "resultado/${Uri.encode(nombre)}/$imc"
+                        )
+                    }
                 }
             }
         ) {
